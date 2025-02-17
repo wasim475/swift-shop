@@ -1,9 +1,26 @@
 import React from 'react'
+import Viewproduct from '../../../dashboard/view product/viewproduct'
 
-const page = () => {
+async function getData() {
+  const res = await fetch('http://localhost:8000/api/v1/products/get-product',{
+    cache: "no-store",
+  })
+  
+  if (!res.ok) {
+    throw new Error('Failed to fetch data')
+  }
+ 
+  return res.json()
+}
+
+const page = async () => {
+  const data = await getData()
+
+ 
+  
   return (
     <div>
-      <h1>View Products</h1>
+      <Viewproduct data={data} />
     </div>
   )
 }

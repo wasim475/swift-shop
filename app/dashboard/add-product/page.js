@@ -1,11 +1,25 @@
 import React from 'react'
 import Addproduct from '../../../dashboard/add products/addproduct'
 
-const page = () => {
+async function getData() {
+  const res = await fetch('http://localhost:8000/api/v1/products/get-category',{
+    cache: "no-store",
+  })
+  
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data')
+  }
+ 
+  return res.json()
+}
+const page = async () => {
+  const data = await getData()
+  console.log(data)
   return (
     <div className='flex flex-col justify-center items-start mt-10'>
        <h1 className='font-semibold text-3xl mb-6'>Add Product</h1>
-      <Addproduct/>
+      <Addproduct data={data} />
     </div>
   )
 }
