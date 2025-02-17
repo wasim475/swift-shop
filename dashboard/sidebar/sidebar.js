@@ -3,7 +3,9 @@ import { Menu } from 'antd';
 import { AiFillProduct } from "react-icons/ai";
 import { RiLuggageCartFill } from "react-icons/ri";
 import { LiaUserCogSolid } from "react-icons/lia";
+import { useRouter } from 'next/navigation';
 const Sidebar = () => {
+    const router = useRouter() 
     const items = [
         {
           key: 'sub1',
@@ -50,6 +52,24 @@ const Sidebar = () => {
       ];
       const onClick = (e) => {
         console.log('click ', e);
+        if (e.key === '1') {
+            router.push("/dashboard/add-category");
+          }
+        if (e.key === '2') {
+            router.push("/dashboard/view-category");
+          }
+        if (e.key === '3') {
+            router.push("/dashboard/add-product");
+          }
+        if (e.key === '4') {
+            router.push("/dashboard/view-products");
+          }
+        if (e.key === '5') {
+            router.push("/dashboard/manage-orders");
+          }
+        if (e.key === '6') {
+            router.push("/dashboard/view-customers");
+          }
       };
   return (
     <>
