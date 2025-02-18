@@ -9,14 +9,15 @@ const Register = () => {
     const {name,email, phoneNumber, password} = values
     const registrationData = {name,email, phoneNumber, password}
     const response = await axios.post("http://localhost:8000/api/v1/auth/registration", registrationData)
-    if(response.data.success){
-      toast.success(response.data.success)
+
+    if(response.data?.success){
+      return toast.success(response.data.success)
     }
-    if(response.data.error){
-      toast.error(response.data.error)
+    if(response?.data.error){
+      return toast.error(response.data.error)
     }
     
-    // console.log('Form values: ', values);
+    console.log('Form values: ', response.data.error);
    
   };
 
