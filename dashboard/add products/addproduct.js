@@ -1,23 +1,33 @@
 "use client";
-import { Button, Checkbox, Form, Input, InputNumber, Select } from "antd";
-import axios from 'axios';
+import { Button, Form, Input, InputNumber, Select } from "antd";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const Addproduct = ({ data }) => {
   const [selectData, setSelectData] = useState(null);
   const onFinish = async (values) => {
-    const {name, categoryId, imageLink, description,inStock , price} = values
-    const productInfo = {name, categoryId, imageLink, description,inStock , price}
-    const response = await axios.post("http://localhost:8000/api/v1/products/create-product", productInfo)
+    const { name, categoryId, imageLink, description, inStock, price } = values;
+    const productInfo = {
+      name,
+      categoryId,
+      imageLink,
+      description,
+      inStock,
+      price,
+    };
+    const response = await axios.post(
+      "https://swift-shop-backend.vercel.app/api/v1/products/create-product",
+      productInfo
+    );
 
-    console.log("response",response.data)
-    if(response.data.success){
-      toast.success(response.data.success)
-    } else if(response.data.error){
-      toast.error(response.data.error)
-    } else if(response.data.warn){
-      toast.error(response.data.warn)
+    console.log("response", response.data);
+    if (response.data.success) {
+      toast.success(response.data.success);
+    } else if (response.data.error) {
+      toast.error(response.data.error);
+    } else if (response.data.warn) {
+      toast.error(response.data.warn);
     }
 
     // console.log(productInfo)
@@ -44,7 +54,7 @@ const Addproduct = ({ data }) => {
     setSelectData(selectCats);
   }, [data]);
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <Form
         name="basic"
         labelCol={{
@@ -63,64 +73,60 @@ const Addproduct = ({ data }) => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        
-          <Form.Item
-            label="Product Name"
-            className="text-lg font-medium"
-            name="name"
-            rules={[
-              {
-                required: true,
-                message: "Write Product Name!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
+        <Form.Item
+          label="Product Name"
+          className="text-lg font-medium"
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: "Write Product Name!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
 
-          <Form.Item
-            label="Category"
-            name="categoryId"
-            rules={[
-              {
-                required: true,
-                message: "Please select a category!",
-              },
-            ]}
-          >
-            <Select
-              showSearch
-              placeholder="Select one"
-              optionFilterProp="label"
-              options={selectData}
-            />
-          </Form.Item>
-        
+        <Form.Item
+          label="Category"
+          name="categoryId"
+          rules={[
+            {
+              required: true,
+              message: "Please select a category!",
+            },
+          ]}
+        >
+          <Select
+            showSearch
+            placeholder="Select one"
+            optionFilterProp="label"
+            options={selectData}
+          />
+        </Form.Item>
 
-       
-          <Form.Item
-            label="Price"
-            name="price"
-            rules={[
-              { required: true, message: "Enter product price!" },
-              {
-                type: "number",
-                min: 10,
-                message: "Price must be at least 10!",
-              },
-            ]}
-          >
-            <InputNumber style={{ width: "100%" }} />
-          </Form.Item>
+        <Form.Item
+          label="Price"
+          name="price"
+          rules={[
+            { required: true, message: "Enter product price!" },
+            {
+              type: "number",
+              min: 10,
+              message: "Price must be at least 10!",
+            },
+          ]}
+        >
+          <InputNumber style={{ width: "100%" }} />
+        </Form.Item>
 
-          <Form.Item
-            label="Description"
-            name="description"
-            rules={[{ required: true, message: "Write Product Description!" }]}
-          >
-            <Input.TextArea rows={3} />
-          </Form.Item>
-        
+        <Form.Item
+          label="Description"
+          name="description"
+          rules={[{ required: true, message: "Write Product Description!" }]}
+        >
+          <Input.TextArea rows={3} />
+        </Form.Item>
 
         <Form.Item
           label="Image Link"
@@ -140,7 +146,6 @@ const Addproduct = ({ data }) => {
         >
           <InputNumber style={{ width: "100%" }} />
         </Form.Item>
-        
 
         <Form.Item label={null}>
           <Button type="primary" htmlType="submit">

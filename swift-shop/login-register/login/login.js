@@ -1,10 +1,14 @@
 "use client"
 import { Form, Input, Button, Divider, Row, Col } from 'antd';
+import axios from 'axios';
 import Link from 'next/link';
 
 
 const Login = () => {
   const onFinish = (values) => {
+    const {email, password}= values
+    const loginData = {email, password}
+    const response = axios.post("https://swift-shop-backend.vercel.app/auth/login")
     console.log('Form values: ', values);
    
   };

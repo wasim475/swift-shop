@@ -1,28 +1,33 @@
-"use client"
-import { Form, Input, Button, Row, Col, Divider } from 'antd';
-import axios from 'axios';
-import Link from 'next/link';
-import toast from 'react-hot-toast';
+"use client";
+import { Button, Col, Divider, Form, Input, Row } from "antd";
+import axios from "axios";
+import Link from "next/link";
+import { useRouter } from 'next/navigation';
+import toast from "react-hot-toast";
 
 const Register = () => {
+  const router = useRouter()
   const onFinish = async (values) => {
-    const {name,email, phoneNumber, password} = values
-    const registrationData = {name,email, phoneNumber, password}
-    const response = await axios.post("http://localhost:8000/api/v1/auth/registration", registrationData)
+    const { name, email, phoneNumber, password } = values;
+    const registrationData = { name, email, phoneNumber, password };
+    const response = await axios.post(
+      "https://swift-shop-backend.vercel.app/api/v1/auth/registration",
+      registrationData
+    );
 
-    if(response.data?.success){
-      return toast.success(response.data.success)
+    if (response.data?.success) {
+      router.push("/login")
+      return toast.success(response.data.success);
     }
-    if(response?.data.error){
-      return toast.error(response.data.error)
+    if (response?.data.error) {
+      return toast.error(response.data.error);
     }
-    
-    console.log('Form values: ', response.data.error);
-   
+
+    console.log("Form values: ", response.data.error);
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: '0 auto', padding: '20px' }}>
+    <div style={{ maxWidth: 400, margin: "0 auto", padding: "20px" }}>
       <h2>Register</h2>
       <Form
         name="register"
@@ -33,7 +38,7 @@ const Register = () => {
         <Form.Item
           label="Name"
           name="name"
-          rules={[{ required: true, message: 'Please input your name!' }]}
+          rules={[{ required: true, message: "Please input your name!" }]}
         >
           <Input />
         </Form.Item>
@@ -42,8 +47,8 @@ const Register = () => {
           label="Email"
           name="email"
           rules={[
-            { required: true, message: 'Please input your email!' },
-            { type: 'email', message: 'Please enter a valid email!' },
+            { required: true, message: "Please input your email!" },
+            { type: "email", message: "Please enter a valid email!" },
           ]}
         >
           <Input />
@@ -53,8 +58,7 @@ const Register = () => {
           label="Phone Number"
           name="phoneNumber"
           rules={[
-            { required: true, message: 'Please input your phone number!' },
-            
+            { required: true, message: "Please input your phone number!" },
           ]}
         >
           <Input />
@@ -63,7 +67,7 @@ const Register = () => {
         <Form.Item
           label="Password"
           name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          rules={[{ required: true, message: "Please input your password!" }]}
         >
           <Input.Password />
         </Form.Item>
@@ -74,12 +78,14 @@ const Register = () => {
           </Button>
         </Form.Item>
       </Form>
-          <Divider/>
+      <Divider />
       <Row justify="center">
         <Col>
           <p>
-            Already have an account?{' '}
-            <Link href={"/login"} className='text-blue-400'>Sign in</Link>
+            Already have an account?{" "}
+            <Link href={"/login"} className="text-blue-400">
+              Sign in
+            </Link>
           </p>
         </Col>
       </Row>

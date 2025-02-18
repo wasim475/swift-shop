@@ -1,9 +1,9 @@
 "use client";
-import { Table, Space, Modal, Input, Form, Button } from "antd";
-import { useEffect, useState } from "react";
+import { Button, Form, Input, Modal, Space, Table } from "antd";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import Spinner from '../../utility/spinner';
+import Spinner from "../../utility/spinner";
 
 const Viewproduct = () => {
   const [data, setData] = useState(null);
@@ -18,14 +18,17 @@ const Viewproduct = () => {
 
   const [editCat, setEditCat] = useState("");
   const [editId, setEditId] = useState(null);
-  const [editname , setEditName]= useState(null)
+  const [editname, setEditName] = useState(null);
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/v1/products/get-product", {
-          cache: "no-store",
-        });
+        const res = await fetch(
+          "https://swift-shop-backend.vercel.app/api/v1/products/get-product",
+          {
+            cache: "no-store",
+          }
+        );
 
         if (!res.ok) {
           throw new Error("Failed to fetch data");
@@ -42,7 +45,6 @@ const Viewproduct = () => {
 
     getData();
   }, []);
-
 
   useEffect(() => {
     const catagory = data?.map((item) => ({
@@ -65,13 +67,12 @@ const Viewproduct = () => {
   }, [data]);
 
   // console.log(catData)
-  if(loading){
+  if (loading) {
     return (
-      <div className='flex justify-center items-center min-h-screen w-full'>
-        <Spinner/>
+      <div className="flex justify-center items-center min-h-screen w-full">
+        <Spinner />
       </div>
-    )
-    
+    );
   }
 
   const uniqueFiterData = filterCat?.filter(
@@ -80,21 +81,18 @@ const Viewproduct = () => {
   );
 
   const handleDelete = async (productId) => {
-    console.log(productId)
+    console.log(productId);
     const response = await axios.delete(
-      `http://localhost:8000/api/v1/products/delete-product?productId=${productId}`,
+      `https://swift-shop-backend.vercel.app/api/v1/products/delete-product?productId=${productId}`,
       { data: { productId } }
     );
     if (response.data.success) {
       toast.success(response.data.success);
       const remainingData = catData?.filter((item) => item.key !== productId);
       setCatData(remainingData);
-
-      
     }
   };
- 
-  
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -124,15 +122,10 @@ const Viewproduct = () => {
 
   const handleEdit = (id, name) => {
     setEditCat(editCat);
-    setEditName(name)
+    setEditName(name);
     setEditId(id);
     showModal();
   };
-  
-
- 
-
-
 
   const columns = [
     {
@@ -175,9 +168,6 @@ const Viewproduct = () => {
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
-
-
-
 
   return (
     <div>
@@ -224,8 +214,6 @@ const Viewproduct = () => {
             <Input />
           </Form.Item>
           <Form.Item label={null}>
-            
-
             <Button type="default" onClick={handleCancel}>
               Cancel
             </Button>
