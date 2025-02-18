@@ -1,28 +1,35 @@
-import Link from 'next/link'
-import React from 'react'
+"use client"; 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 
 const NavItem = () => {
-  return (
-    <>
-       <ul className='flex gap-x-10 py-5'>
-            <li>
-              <Link href={"/"} >Home</Link>
-            </li>
-            <li>
-              Shop
-            </li>
-            <li>
-              Blogs
-            </li>
-            <li>
-              <Link href={"/about-us"} >About us</Link>
-            </li>
-            <li>
-              <Link href={"/contact-us"} >Contact us</Link>
-            </li>
-          </ul>
-    </>
-  )
-}
+  const pathname = usePathname();
 
-export default NavItem
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "Shop", path: "/shop" },
+    { name: "Blogs", path: "/blogs" },
+    { name: "About us", path: "/about-us" },
+    { name: "Contact us", path: "/contact-us" },
+  ];
+
+  return (
+    <ul className="flex gap-x-10 py-2">
+      {navLinks.map((link) => (
+        <li key={link.path}>
+          <Link
+            href={link.path}
+            className={`${
+              pathname === link.path ? "font-bold text-blue-500" : "font-normal text-gray-700"
+            }`}
+          >
+            {link.name}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export default NavItem;
