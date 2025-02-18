@@ -1,10 +1,22 @@
 "use client"
 import { Form, Input, Button, Row, Col, Divider } from 'antd';
+import axios from 'axios';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 const Register = () => {
-  const onFinish = (values) => {
-    console.log('Form values: ', values);
+  const onFinish = async (values) => {
+    const {name,email, phoneNumber, password} = values
+    const registrationData = {name,email, phoneNumber, password}
+    const response = await axios.post("http://localhost:8000/api/v1/auth/registration", registrationData)
+    if(response.data.success){
+      toast.success(response.data.success)
+    }
+    if(response.data.error){
+      toast.error(response.data.error)
+    }
+    
+    // console.log('Form values: ', values);
    
   };
 
@@ -38,10 +50,10 @@ const Register = () => {
 
         <Form.Item
           label="Phone Number"
-          name="phone"
+          name="phoneNumber"
           rules={[
             { required: true, message: 'Please input your phone number!' },
-            { pattern: /^[0-9]{10}$/, message: 'Please enter a valid phone number!' },
+            
           ]}
         >
           <Input />
