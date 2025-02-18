@@ -15,7 +15,7 @@ async function getData() {
 }
 const page = async () => {
   const data = await getData()
-  console.log(data)
+  // console.log(data)
   return (
     <div className='flex flex-col justify-center items-start mt-10'>
        <h1 className='font-semibold text-3xl mb-6'>Add Product</h1>

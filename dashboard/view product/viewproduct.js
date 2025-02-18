@@ -3,9 +3,11 @@ import { Table, Space, Modal, Input, Form, Button } from "antd";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Spinner from '../../utility/spinner';
 
-const Viewproduct = ({ data }) => {
-
+const Viewproduct = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [filterCat, setFilterCat] = useState([]);
   const [isActive, setIsActive] = useState([]);
   const [refresh, setRefresh] = useState(false);
@@ -13,6 +15,34 @@ const Viewproduct = ({ data }) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [msg, setMsg] = useState("");
+
+  const [editCat, setEditCat] = useState("");
+  const [editId, setEditId] = useState(null);
+  const [editname , setEditName]= useState(null)
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await fetch("http://localhost:8000/api/v1/products/get-product", {
+          cache: "no-store",
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const result = await res.json();
+        setData(result);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getData();
+  }, []);
+
 
   useEffect(() => {
     const catagory = data?.map((item) => ({
@@ -35,31 +65,36 @@ const Viewproduct = ({ data }) => {
   }, [data]);
 
   // console.log(catData)
+  if(loading){
+    return (
+      <div className='flex justify-center items-center min-h-screen w-full'>
+        <Spinner/>
+      </div>
+    )
+    
+  }
 
-  const uniqueFiterData = filterCat.filter(
+  const uniqueFiterData = filterCat?.filter(
     (item, index, self) =>
       index === self.findIndex((obj) => obj.text === item.text)
   );
 
-  const handleDelete = async (categoryId) => {
-    const response = await axios.post(
-      "http://localhost:1559/api/v1/products/deleteCategory",
-      { categoryId }
+  const handleDelete = async (productId) => {
+    console.log(productId)
+    const response = await axios.delete(
+      `http://localhost:8000/api/v1/products/delete-product?productId=${productId}`,
+      { data: { productId } }
     );
     if (response.data.success) {
-      setMsg(response.data.success);
-      const remainingData = catData?.filter((item) => item.key !== categoryId);
+      toast.success(response.data.success);
+      const remainingData = catData?.filter((item) => item.key !== productId);
       setCatData(remainingData);
 
-      setTimeout(() => {
-        setMsg("");
-      }, 1000);
+      
     }
   };
-
-  const [editCat, setEditCat] = useState("");
-  const [editId, setEditId] = useState(null);
-  const [editname , setEditName]= useState(null)
+ 
+  
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -93,31 +128,11 @@ const Viewproduct = ({ data }) => {
     setEditId(id);
     showModal();
   };
-  const handleAprove = async (id) => {
-    const response = await axios.post(
-      "http://localhost:1559/api/v1/products/categoryaprove",
-      { catId: id }
-    );
-    // console.log(response.data.success)
-    if (response.data.success) {
-      toast.success(response.data.success);
-      catDispatch(categoryData());
-    }
-  };
+  
 
-  const handleHold = async (id) => {
-    const response = await axios.post(
-      "http://localhost:1559/api/v1/products/categoryhole",
-      { catId: id }
-    );
-    // console.log(response.data.success)
-    if (response.data.success) {
-      toast.success(response.data.success);
-      catDispatch(categoryData());
-    }
-  };
+ 
 
-  // console.log("isActive",isActive)
+
 
   const columns = [
     {
@@ -160,6 +175,8 @@ const Viewproduct = ({ data }) => {
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
+
+
 
 
   return (
