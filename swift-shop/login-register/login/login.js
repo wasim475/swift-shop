@@ -2,14 +2,20 @@
 import { Form, Input, Button, Divider, Row, Col } from 'antd';
 import axios from 'axios';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 
 const Login = () => {
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     const {email, password}= values
     const loginData = {inputEmail: email, inputPassword: password}
-    const response = axios.post("https://swift-shop-backend.vercel.app/auth/login")
-    console.log('Form values: ', values);
+    const response = await axios.post("https://swift-shop-backend.vercel.app/api/v1/auth/login", loginData)
+    if(response.data.success){
+      return toast.success(response.data.success)
+    } else if(response.data.error){
+      return toast.error(response.data.error)
+    }
+    console.log('Form values: ', response);
    
   };
 
