@@ -28,9 +28,9 @@ const Navbar = () => {
   
   useEffect(() => {
     dispatch(cartDataLoader());
-  }, [dispatch]); // এখানে dispatch দেওয়াই যথেষ্ট
+  }, [dispatch]); 
   
-  // cartInfo আপডেট হলে cartItems সেট করবো
+  
   useEffect(() => {
     if (cartInfo.length) {
       setCartItems(cartInfo);

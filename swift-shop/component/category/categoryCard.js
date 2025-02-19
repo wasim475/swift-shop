@@ -58,7 +58,7 @@ const CategoryCard = ({ item }) => {
         </div>
 
         <button className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-2 rounded-md shadow opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          View
+          View details
         </button>
       </div>
 
