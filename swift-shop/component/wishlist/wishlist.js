@@ -83,6 +83,7 @@ const Wishlist = () => {
         
         return(
         <Badge
+        
           status={parseInt(inStock)>0 ? "success" : "error"}
           text={parseInt(inStock)>0 ? "In Stock" : "Out of Stock"}
         />
