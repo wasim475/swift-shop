@@ -30,8 +30,7 @@ const Category = () => {
       children: (
         <Radio.Group
           onChange={(e) => {
-            console.log("Selected Value:", e.target.value);
-            router.push(`/category/${e.target.value}`)
+            router.push(`/products/${e.target.value}`)
             setCategory(e.target.value);
           }}
           value={category}
