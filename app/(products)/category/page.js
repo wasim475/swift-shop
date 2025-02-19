@@ -1,9 +1,10 @@
 import React from 'react'
+import ViewCategory from '../../../swift-shop/component/category/category'
 
 const page = () => {
   return (
     <div>
-      <h1>dello</h1>
+      
     </div>
   )
 }
