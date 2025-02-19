@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AiOutlineShoppingCart,
   AiOutlineHeart,
@@ -16,10 +16,31 @@ import { FiPhoneCall } from "react-icons/fi";
 import Search from "./search";
 import Link from "next/link";
 import NavItem from "./navItem";
+import { useDispatch, useSelector } from 'react-redux';
+import { cartDataLoader } from '../../Feature/cart slice/cartSlice';
 
 const Navbar = () => {
-  const [cartCount, setCartCount] = useState(2);
+  const [cartCount, setCartCount] = useState(0);
   const cartTotal = 57.0;
+  const dispatch = useDispatch();
+  const { cartInfo, isLoading } = useSelector((state) => state.cartData);
+  const [cartItems, setCartItems] = useState([]);
+  
+  useEffect(() => {
+    dispatch(cartDataLoader());
+  }, [dispatch]); // এখানে dispatch দেওয়াই যথেষ্ট
+  
+  // cartInfo আপডেট হলে cartItems সেট করবো
+  useEffect(() => {
+    if (cartInfo.length) {
+      setCartItems(cartInfo);
+    }
+  }, [cartInfo]);
+  
+
+  if(isLoading){
+    return <h1>Loading</h1>
+  }
 
   return (
     <main>
@@ -49,9 +70,9 @@ const Navbar = () => {
 
           <Link href={"/cart"} className="relative flex items-center text-white">
             <HiOutlineShoppingBag className="text-3xl text-gray-900" />
-            {cartCount > 0 && (
+            {cartInfo.length > 0 && (
               <div className="bg-green-700 text-white absolute rounded-full w-5 h-5 flex items-center justify-center -top-2 -right-2 text-xs">
-                <p>{cartCount}</p>
+                <p>{cartInfo.length}</p>
               </div>
             )}
           </Link>

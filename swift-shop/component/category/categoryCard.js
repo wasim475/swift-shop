@@ -8,7 +8,7 @@ const CategoryCard = ({ item }) => {
   const { name, price, imageLink, description, inStock } = item;
   const handleCart = (cartData)=>{
     const {name, price, imageLink, _id }= cartData
-    const cartInfo = {name, price, imageLink, id: _id}
+    const cartInfo = {name, price, imageLink, quantity:1, originalPrice:price+20,  id: _id}
     saveCartData(cartInfo)
   }
   const handleWishlist = (WishListData)=>{

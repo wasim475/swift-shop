@@ -1,70 +1,73 @@
-"use client"
+"use client";
 import { useEffect, useState } from "react";
 import { Card, Checkbox, Button, InputNumber, Typography } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from 'react-redux';
 import { cartDataLoader } from '../../../Feature/cart slice/cartSlice';
-
+import { deleteCart } from '../../utility';
+ 
 const { Title, Text } = Typography;
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      title: "নানাকথা ও নানাকথার পরের কথা",
-      author: "সরদার ফজলুল করিম",
-      price: 175,
-      originalPrice: 250,
-      quantity: 1,
-      image: "https://via.placeholder.com/100",
-    },
-    {
-      id: 2,
-      title: "নির্বাচিত গল্প",
-      author: "মঞ্জুল আহসান সাবের",
-      price: 210,
-      originalPrice: 300,
-      quantity: 1,
-      image: "https://via.placeholder.com/100",
-    },
-  ]);
+  const dispatch = useDispatch();
+  const { cartInfo, isLoading } = useSelector((state) => state.cartData);
+  const [cartItems, setCartItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
 
-  const {cartInfo, isLoading} = useSelector((state)=>state.cartData)
-  const cartDispatch = useDispatch()
+  useEffect(() => {
+    dispatch(cartDataLoader());
+  }, [dispatch]);
 
-  useEffect(()=>{
-    cartDispatch(cartDataLoader())
-  },[cartDispatch])
-
-  console.log(cartInfo)
+  useEffect(() => {
+    if (cartInfo.length) {
+      setCartItems(cartInfo);
+    }
+  }, [cartInfo]);
 
   const handleQuantityChange = (value, id) => {
-    setCartItems(
-      cartItems.map((item) =>
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
         item.id === id ? { ...item, quantity: value } : item
       )
     );
   };
 
   const handleRemove = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
+    deleteCart(id)
+    const remaining = cartItems.filter(item=> item.id !== id)
+    setCartItems(remaining)
+    
   };
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const onlineFee = 48;
+  const handleSelect = (id) => {
+    setSelectedItems((prev) =>
+      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
+    );
+  };
+
+  const selectedCartItems = cartItems.filter((item) => selectedItems.includes(item.id));
+  const subtotal = selectedCartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const onlineFee = selectedCartItems.length > 0 ? 48 : 0;
   const total = subtotal + onlineFee;
+
+  if (isLoading) return <Title>Loading...</Title>;
 
   return (
     <div style={{ display: "flex", gap: "20px", padding: "20px" }}>
       <div style={{ flex: 2 }}>
-        <Checkbox> Select All ({cartItems.length} Items) </Checkbox>
+        <Checkbox 
+          onChange={(e) => setSelectedItems(e.target.checked ? cartItems.map((item) => item.id) : [])}
+          checked={selectedItems.length === cartItems.length && cartItems.length > 0}
+        >
+          Select All ({cartItems.length} Items)
+        </Checkbox>
         {cartItems.map((item) => (
           <Card key={item.id} style={{ marginTop: 10 }}>
             <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-              <Checkbox />
-              <img src={item.image} alt={item.title} width={80} height={100} />
+              <Checkbox checked={selectedItems.includes(item.id)} onChange={() => handleSelect(item.id)} />
+              <img src={item.imageLink} alt={item.name} width={80} height={100} />
               <div style={{ flex: 1 }}>
-                <Title level={5}>{item.title}</Title>
+                <Title level={5}>{item.name}</Title>
                 <Text type="secondary">{item.author}</Text>
                 <div>
                   <Text strong>{item.price} Tk.</Text>
@@ -95,7 +98,7 @@ const CartPage = () => {
         <div>
           <Title level={5}>Payable Total: {total} Tk.</Title>
         </div>
-        <Button type="primary" block style={{ marginTop: 10 }}>
+        <Button type="primary" block style={{ marginTop: 10 }} disabled={selectedItems.length === 0}>
           Proceed to Checkout
         </Button>
       </Card>

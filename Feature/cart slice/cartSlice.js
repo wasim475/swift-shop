@@ -6,7 +6,7 @@ import { getCartData } from '../../swift-shop/utility';
 
 export const cartDataLoader = createAsyncThunk("cart",
     async()=>{
-        const cartData = getCartData()
+        const cartData = await getCartData()
         return cartData
     }
 )
@@ -21,14 +21,14 @@ const cartDataSlice = createSlice({
     },
     extraReducers:(builder)=>{
         builder.addCase(cartDataLoader.pending, state=>{
-            state.isLoading= true,
+            state.isLoading= true
             state.isError= false
         }).addCase(cartDataLoader.fulfilled, (state,action)=>{
-            state.isLoading= false,
-            state.isError = false,
+            state.isLoading= false
+            state.isError = false
             state.cartInfo = action.payload
         }).addCase(cartDataLoader.rejected, (state,action)=>{
-            state.isLoading = false,
+            state.isLoading = false
             state.errorMassage = action.error?.message
         })
     }
