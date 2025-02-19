@@ -4,6 +4,7 @@ import { getSpecificCategory } from '../../../app/dataFatching/page';
 import Spinner from '../../../utility/spinner';
 import Category from '../../Home/sidebar/category';
 import CategoryCard from './categoryCard';
+import EmptyCategoryCard from './emptyCategoryCard';
 
 const ViewCategory = ({catId}) => {
     const [catData, setCatData]= useState(null)
@@ -23,11 +24,14 @@ const ViewCategory = ({catId}) => {
       }
     console.log(catData)
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+    <div className={`${catData.length>0 && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
         {
+            catData.length>0 ?
             catData.map((item)=>(
                 <CategoryCard key={item._id} item = {item} />
             ))
+            :
+            <EmptyCategoryCard/>
         }
     </div>
   );
