@@ -14,7 +14,7 @@ export const getCategory = async () => {
 };
 export const getSpecificCategory = async (catId) => {
   const res = await fetch(
-    `https://swift-shop-backend.vercel.app/api/v1/products/get-category/${catId}`,
+    `https://swift-shop-backend.vercel.app/api/v1/products/get-product/${catId}`,
     {
       cache: "no-store",
     }
