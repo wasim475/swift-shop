@@ -15,7 +15,7 @@ const CategoryCard = ({item}) => {
         />
         <div className="mt-6 mb-2">
           <span className="block text-xs font-medium tracking-widest uppercase dark:text-violet-600">
-            ${name}
+            {name}
           </span>
           <h2 className="text-xl font-semibold tracking-wide">
           ${price}
