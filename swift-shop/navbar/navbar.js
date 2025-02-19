@@ -64,9 +64,9 @@ const Navbar = () => {
         </section>
 
         <section className="flex items-center space-x-6">
-          <div className="relative">
+          <Link href={"/wishlist"} className="relative">
             <CiHeart className="text-3xl text-gray-900" />
-          </div>
+          </Link>
 
           <Link href={"/cart"} className="relative flex items-center text-white">
             <HiOutlineShoppingBag className="text-3xl text-gray-900" />

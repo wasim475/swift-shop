@@ -3,11 +3,15 @@ import Image from "next/image";
 import { CiHeart } from "react-icons/ci";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { saveCartData, savewishlistData } from "../../utility";
+import ProductDetails from '../products/productDetails';
+import { useState } from 'react';
 
-const CategoryCard = ({ item }) => {
+const CategoryCard = ({ item, fromAllProduct }) => {
+  const [modalVisible, setModalVisible] = useState(false);
   const { name, price, imageLink, description, inStock } = item;
 
   const handleCart = (cartData) => {
+    
     const { name, price, imageLink, _id } = cartData;
     const cartInfo = {
       name,
@@ -21,8 +25,8 @@ const CategoryCard = ({ item }) => {
   };
 
   const handleWishlist = (WishListData) => {
-    const { name, price, imageLink, _id } = WishListData;
-    const wishlistInfo = { name, price, imageLink, id: _id };
+    const { name, price, imageLink,inStock, _id } = WishListData;
+    const wishlistInfo = { name, price, imageLink,inStock, id: _id };
     savewishlistData(wishlistInfo);
   };
 
@@ -57,9 +61,10 @@ const CategoryCard = ({ item }) => {
           </button>
         </div>
 
-        <button className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-2 rounded-md shadow opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <button onClick={() => setModalVisible(true)} className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-white text-black px-4 py-2 rounded-md shadow opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           View details
         </button>
+        <ProductDetails product ={item} onWishlist={handleWishlist} onCart={handleCart}  visible={modalVisible} onClose={() => setModalVisible(false)}/>
       </div>
 
       <p className="dark:text-gray-800">{inStock} In Stock</p>

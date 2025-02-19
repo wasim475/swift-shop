@@ -12,7 +12,7 @@ export const getCartData = ()=>{
 export const saveCartData = (cartItem)=>{
     const saveCart = getCartData()
     const isExist = saveCart.find((ct)=>ct.id === cartItem.id)
-    console.log(isExist)
+   
     if(isExist){
         return toast.error("already in cart.")
     }
