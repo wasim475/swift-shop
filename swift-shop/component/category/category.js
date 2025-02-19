@@ -22,9 +22,9 @@ const ViewCategory = ({catId}) => {
           </div>
         );
       }
-    console.log(catData)
+   
   return (
-    <div className={`${catData.length>0 && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
+    <div className={`${catData.length>0 && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5'}`}>
         {
             catData.length>0 ?
             catData.map((item)=>(

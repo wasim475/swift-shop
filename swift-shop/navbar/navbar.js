@@ -47,14 +47,14 @@ const Navbar = () => {
             <CiHeart className="text-3xl text-gray-900" />
           </div>
 
-          <div className="relative flex items-center text-white">
+          <Link href={"/cart"} className="relative flex items-center text-white">
             <HiOutlineShoppingBag className="text-3xl text-gray-900" />
             {cartCount > 0 && (
               <div className="bg-green-700 text-white absolute rounded-full w-5 h-5 flex items-center justify-center -top-2 -right-2 text-xs">
                 <p>{cartCount}</p>
               </div>
             )}
-          </div>
+          </Link>
           <div className="ml-2">
             <h1 className="text-sm text-gray-400">Shopping Cart</h1>
             <p className="text-xs text-gray-800 font-semibold">

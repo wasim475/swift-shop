@@ -1,8 +1,9 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Toaster } from 'react-hot-toast';
-import Navbar from '../swift-shop/navbar/navbar';
-import Hero from '../swift-shop/Home/hero';
+import { Toaster } from "react-hot-toast";
+import Navbar from "../swift-shop/navbar/navbar";
+import Hero from "../swift-shop/Home/hero";
+import ReduxProvider from '../store/reduxprovider';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -14,10 +15,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar/>
-        <Hero/>
-        {children}
-      <Toaster/>
+        <ReduxProvider>
+          <Navbar />
+          <Hero />
+          {children}
+          <Toaster />
+        </ReduxProvider>
       </body>
     </html>
   );
