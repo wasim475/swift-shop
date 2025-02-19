@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { getSpecificCategory } from '../../../app/dataFatching/page';
 import Spinner from '../../../utility/spinner';
+import Category from '../../Home/sidebar/category';
+import CategoryCard from './categoryCard';
 
 const ViewCategory = ({catId}) => {
     const [catData, setCatData]= useState(null)
@@ -21,7 +23,13 @@ const ViewCategory = ({catId}) => {
       }
     console.log(catData)
   return (
-    <div></div>
+    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+        {
+            catData.map((item)=>(
+                <CategoryCard key={item._id} item = {item} />
+            ))
+        }
+    </div>
   );
 };
 
