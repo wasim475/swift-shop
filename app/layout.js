@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
 import Navbar from '../swift-shop/navbar/navbar';
+import Hero from '../swift-shop/Home/hero';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -14,7 +15,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Navbar/>
-        
+        <Hero/>
         {children}
       <Toaster/>
       </body>
