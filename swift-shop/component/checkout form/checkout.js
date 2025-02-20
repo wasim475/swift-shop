@@ -4,10 +4,12 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkoutDataLoader } from "../../../Feature/checkoutSlice/checkoutSlice";
 import Spinner from "../../../utility/spinner";
+import { useRouter } from 'next/navigation';
 
 const { Option } = Select;
 
 const CheckoutForm = () => {
+  const router = useRouter()
   const { checkoutData, isLoading } = useSelector((state) => state.checkout);
   const checkoutDispatch = useDispatch();
 
@@ -23,7 +25,24 @@ const CheckoutForm = () => {
     );
   }
 console.log(checkoutData)
+
   const onFinish = (values) => {
+    const {country,email,name,orderNotes,paymentMethod,phone,shipDifferent,state,streetAddress,zipCode} = values
+    const deliveryInfo = {
+      useName: name,
+      email,
+      phone,
+      paymentMethod,
+      grandTotal:checkoutData.grandTotal,
+      products: checkoutData.items,
+      state,
+      streetAddress,
+      zipCode,
+      orderNotes,
+    }
+    if(paymentMethod==='cod'){
+      router.push("/confirm-order")
+    }
     console.log("Success:", values);
   };
 

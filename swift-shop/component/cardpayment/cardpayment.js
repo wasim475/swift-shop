@@ -1,23 +1,33 @@
-'use client'
-import StripeCheckout from 'react-stripe-checkout'
+"use client"
 
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { ArrowRight } from "lucide-react";
+import { createCheckoutSession } from '../../../app/action/stripe';
+// import { createCheckoutSession } from "@/app/actions/stripe";
 
-const Cardpayment = () => {
-    const price = 10
-    const handlePayment = async(token)=>{
-        
+export const Cardpayment = () => {
+    const formAction = async(data) => {
+        const {url} = await createCheckoutSession(data);
+        window.location.assign(url)
     }
-  return (
-    <div>
-      <StripeCheckout
-        token={handlePayment}
-        stripeKey="pk_test_51QuOSNRqCrpGFFlIFHCSKUgLQLpiCESBPKhcbR58Avisok55BWq51YI8KoGJTvR38TI41rns8CcnVhhrFZXNLZia00eKjkNJfD"
-        amount={price*100}
-        label='Pay Now'
-        name='Swift Shop'
-      />
-    </div>
-  )
-}
 
-export default Cardpayment
+    return (
+        <>
+            <form action={formAction}>
+                
+                    <Button
+                    
+                        type="submit"
+                        variant="ghost"
+                        className=" text-white gap-1 w-full bg-blue-500"
+                    >
+                        Pay Now
+                        
+                    </Button>
+                
+            
+            </form>
+        </>
+    );
+};
