@@ -24,18 +24,14 @@ const Navbar = () => {
   const cartTotal = 57.0;
   const dispatch = useDispatch();
   const { cartInfo, isLoading } = useSelector((state) => state.cartData);
-  const [cartItems, setCartItems] = useState([]);
+
   
   useEffect(() => {
     dispatch(cartDataLoader());
   }, [dispatch]); 
   
   
-  useEffect(() => {
-    if (cartInfo.length) {
-      setCartItems(cartInfo);
-    }
-  }, [cartInfo]);
+  
   
 
   if(isLoading){

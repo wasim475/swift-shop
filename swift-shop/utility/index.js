@@ -63,3 +63,23 @@ export const deletewishlist = (id)=>{
     localStorage.setItem("wishlist", JSON.stringify(remaining))
     toast.success("item has been deleted.")
 }
+
+
+// Checkout
+
+export const getCheckOutData = ()=>{
+    let CheckOutData = []
+    const data = localStorage.getItem("checkoutInfo")
+    if(data){
+        CheckOutData = JSON.parse(data)
+    }
+    return CheckOutData
+}
+
+export const saveCheckOutData = (checkoutItem)=>{
+   
+    localStorage.setItem('checkoutInfo', JSON.stringify(checkoutItem))
+
+}
+
+

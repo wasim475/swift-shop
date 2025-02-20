@@ -59,7 +59,7 @@ const Wishlist = () => {
       key: "name",
       render: (text, record) => (
         <Space>
-          <Image src={record.imageLink} width={50} />
+          <Image src={record.imageLink} width={50} alt='product image' />
           {text}
         </Space>
       ),
