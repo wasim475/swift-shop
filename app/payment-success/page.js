@@ -4,6 +4,7 @@ import { CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { getcardPaymentData } from "../../swift-shop/utility";
+import Spinner from '../../utility/spinner';
 
 const Success = ({ searchParams: { session_id } }) => {
   const [userName, setUserName] = useState(null);
@@ -29,7 +30,8 @@ const Success = ({ searchParams: { session_id } }) => {
         state,
         orderNotes,
         payment_status: "Paid",
-        session_id:session_id
+        session_id:session_id,
+        oderId: crypto.randomUUID().replace(/-/g, '').slice(0, 10)
       };
 
       // Send order data to backend
@@ -47,7 +49,11 @@ const Success = ({ searchParams: { session_id } }) => {
   }, [session_id]);
 
   if (!userName) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex justify-center items-center min-h-screen w-full">
+        <Spinner />
+      </div>
+    );
   }
 
   return (

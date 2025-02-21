@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { createCheckoutSession } from '../../../app/action/stripe';
 import { Card } from 'antd';
 import { getcardPaymentData } from '../../utility';
+import Spinner from '../../../utility/spinner';
 
 export const Cardpayment = () => {
     const [paymentInfo, setPaymentInfo] = useState(null);
@@ -19,7 +20,11 @@ export const Cardpayment = () => {
 
     
     if (!paymentInfo) {
-        return <p>Loading...</p>;
+      return (
+        <div className="flex justify-center items-center min-h-screen w-full">
+          <Spinner />
+        </div>
+      );
     }
 
     const formAction = async (event) => {
