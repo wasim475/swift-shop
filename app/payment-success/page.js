@@ -2,45 +2,47 @@
 import { Button } from "antd";
 import { CheckCircle } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getcardPaymentData } from "../../swift-shop/utility";
 
 const Success = ({ searchParams: { session_id } }) => {
   const [userName, setUserName] = useState(null);
-
+  const hasRun = useRef(false); 
   useEffect(() => {
-    if (session_id) {
-      const paymentInfo = getcardPaymentData();
+    if (!session_id || hasRun.current) return; 
+    hasRun.current = true;
+    
+    const paymentInfo = getcardPaymentData();
 
-      if (paymentInfo && paymentInfo.deliveryInfo) {
-        const { deliveryInfo } = paymentInfo;
-        const { userName, email, paymentMethod, grandTotal, country, state, orderNotes } = deliveryInfo;
+    if (paymentInfo && paymentInfo.deliveryInfo) {
+      const { deliveryInfo } = paymentInfo;
+      const { userName, email, paymentMethod, grandTotal, country, state, orderNotes } = deliveryInfo;
+      
+      setUserName(userName);
+
+      const orderInfo = {
+        name: userName,
+        email,
+        paymentMethod,
+        grandTotal,
+        country,
+        state,
+        orderNotes,
+        payment_status: "Paid",
+        session_id:session_id
+      };
+
+      // Send order data to backend
+      fetch("http://localhost:8000/api/v1/products/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderInfo),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log("Order Response:", data))
         
-        setUserName(userName);
-
-        const orderInfo = {
-          name: userName,
-          email,
-          paymentMethod,
-          grandTotal,
-          country,
-          state,
-          orderNotes,
-          payment_status:"Paid",
-        };
-
-        // Send order data to backend
-        fetch("http://localhost:8000/api/v1/products/order", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(orderInfo),
-        })
-          .then((res) => res.json())
-          .then((data) => console.log("Order Response:", data))
-          .catch((error) => console.error("Error posting order:", error));
-      }
     }
   }, [session_id]);
 
