@@ -1,3 +1,4 @@
+
 import toast from 'react-hot-toast'
 
 export const getCartData = ()=>{
@@ -79,6 +80,20 @@ export const getCheckOutData = ()=>{
 export const saveCheckOutData = (checkoutItem)=>{
    
     localStorage.setItem('checkoutInfo', JSON.stringify(checkoutItem))
+
+}
+export const getcardPaymentData = ()=>{
+    let cardPamentData = []
+    const data = localStorage.getItem("cardPamentInfo")
+    if(data){
+        cardPamentData = JSON.parse(data)
+    }
+    return cardPamentData
+}
+// Card payment info
+export const saveCardPaymentData = (cardPamentInfo)=>{
+   
+    localStorage.setItem('cardPamentInfo', JSON.stringify(cardPamentInfo))
 
 }
 

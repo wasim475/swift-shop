@@ -2,7 +2,8 @@ import { Button } from "antd";
 import { CheckCircle } from "lucide-react";
 import Link from 'next/link';
 
-const Page = () => {
+const Page = async ({ searchParams: { session_id, deliveryInfo }}) => {
+  const { userName, email, phone, paymentMethod, grandTotal, products, state, streetAddress, zipCode, orderNotes }=deliveryInfo
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-gray-100 px-4">
       <div className="bg-white shadow-lg rounded-lg p-8 md:p-12 text-center max-w-lg">

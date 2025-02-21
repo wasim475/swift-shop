@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkoutDataLoader } from "../../../Feature/checkoutSlice/checkoutSlice";
 import Spinner from "../../../utility/spinner";
 import { useRouter } from 'next/navigation';
+import { saveCardPaymentData } from '../../utility';
 
 const { Option } = Select;
 
@@ -44,7 +45,10 @@ console.log(checkoutData)
       router.push("/confirm-order")
     }
     if(paymentMethod==='card'){
-      const cardPamentInfo={}
+      const cardPamentInfo={
+       id: crypto.randomUUID(), userName: name, shipping: checkoutData.shipping, email,GrandTotal:checkoutData.grandTotal, products: checkoutData.items,deliveryInfo
+      }
+      saveCardPaymentData(cardPamentInfo)
       router.push("/cardpayment")
     }
     console.log("Success:", values);

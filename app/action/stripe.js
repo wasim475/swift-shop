@@ -8,6 +8,9 @@ import { stripe } from "../../swift-shop/stripe/stripe";
 export async function createCheckoutSession(data) {
   const ui_mode = "hosted";
   const origin = headers().get("origin");
+  const deliveryInfo = data.deliveryInfo
+
+  console.log(deliveryInfo) 
 
   const checkoutSession = await stripe.checkout.sessions.create({
     mode: "payment",
@@ -28,7 +31,7 @@ export async function createCheckoutSession(data) {
     ],
 
     ...(ui_mode === "hosted" && {
-      success_url: `${origin}/payment-success`,
+      success_url: `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}&deliveryInfo=${deliveryInfo}`,
 
       cancel_url: `${origin}/products`,
     }),
