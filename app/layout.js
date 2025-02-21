@@ -4,6 +4,8 @@ import { Toaster } from "react-hot-toast";
 import Navbar from "../swift-shop/navbar/navbar";
 import Hero from "../swift-shop/Home/hero";
 import ReduxProvider from '../store/reduxprovider';
+import Footer from '../swift-shop/component/footer/footer';
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -19,6 +21,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <Hero />
           {children}
+          <Footer/>
           <Toaster />
         </ReduxProvider>
       </body>
