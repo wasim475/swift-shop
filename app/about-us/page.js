@@ -4,7 +4,7 @@ import { FaUsers, FaHandshake, FaRocket } from "react-icons/fa";
 
 const AboutUs = () => {
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg min-h-[calc(100vh-232px)]">
       <h2 className="text-3xl font-bold text-center mb-6">About Us</h2>
       <p className="text-gray-600 text-center mb-6">
         Welcome to Swift, your go-to eCommerce platform for seamless online shopping.

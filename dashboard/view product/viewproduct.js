@@ -170,7 +170,7 @@ const Viewproduct = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-[calc(100vh-116px)]">
       <h1 className="text-xl font-semibold flex justify-center mb-5">
         Products
       </h1>

@@ -63,6 +63,7 @@ const CheckoutForm = () => {
 
   return (
     <Form
+    className="min-h-[calc(100vh-280px)]"
       layout="vertical"
       onFinish={onFinish}
       initialValues={{ paymentMethod: "cod" }}

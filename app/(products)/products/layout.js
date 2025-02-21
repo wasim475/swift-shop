@@ -8,7 +8,7 @@ export default function categoryLayout({ children }) {
         <div className='w-[300px]'>
           <Sidebar />
         </div>
-        <div className='w-full'>{children}</div>
+        <div className='w-full mt-10'>{children}</div>
       </section>
     </>
   );

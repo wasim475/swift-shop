@@ -24,7 +24,7 @@ const Addcategory = () => {
     console.log("Failed:", errorInfo);
   };
   return (
-    <div>
+    <div className="min-h-[calc(100vh-280px)]">
       <Form
         name="basic"
         labelCol={{

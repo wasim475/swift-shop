@@ -6,7 +6,7 @@ import Products from '../../../swift-shop/component/products/products'
 const page = () => {
   
   return (
-    <div>
+    <div className="min-h-[calc(100vh-232px)]">
       <Products/>
     </div>
   )

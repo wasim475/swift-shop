@@ -3,7 +3,7 @@
 const Footer = () => {
   return (
     <>
-      <footer className="footer bg-gray-800 text-gray-200 px-10 py-2 flex justify-between">
+      <footer className="footer bg-gray-800 text-gray-200 px-10 py-2 flex justify-between mt-5">
         <aside>
          
           <p>
