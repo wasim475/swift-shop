@@ -17,7 +17,7 @@ const Success = ({ searchParams: { session_id } }) => {
 
     if (paymentInfo && paymentInfo.deliveryInfo) {
       const { deliveryInfo } = paymentInfo;
-      const { userName, email, paymentMethod, grandTotal, country, state, orderNotes } = deliveryInfo;
+      const { userName, email, paymentMethod, products, grandTotal, country, state, orderNotes } = deliveryInfo;
       
       setUserName(userName);
 
@@ -30,7 +30,6 @@ const Success = ({ searchParams: { session_id } }) => {
         state,
         orderNotes,
         payment_status: "Paid",
-        session_id:session_id,
         oderId: crypto.randomUUID().replace(/-/g, '').slice(0, 10)
       };
 

@@ -6,6 +6,7 @@ import { checkoutDataLoader } from "../../../Feature/checkoutSlice/checkoutSlice
 import Spinner from "../../../utility/spinner";
 import { useRouter } from 'next/navigation';
 import { saveCardPaymentData } from '../../utility';
+import axios from 'axios';
 
 const { Option } = Select;
 
@@ -25,9 +26,9 @@ const CheckoutForm = () => {
       </div>
     );
   }
-console.log(checkoutData)
 
-  const onFinish = (values) => {
+
+  const onFinish = async (values) => {
     const {country,email,name,orderNotes,paymentMethod,phone,shipDifferent,state,streetAddress,zipCode} = values
     const deliveryInfo = {
       userName: name,
@@ -43,7 +44,12 @@ console.log(checkoutData)
       country
     }
     if(paymentMethod==='cod'){
-      router.push("/confirm-order")
+      const orderInfo = { name, email, paymentMethod, grandTotal:checkoutData.grandTotal,products: checkoutData.items, country, state, orderNotes, oderId: crypto.randomUUID().replace(/-/g, '').slice(0, 10), payment_status: "COD" }
+      const response = await axios.post("http://localhost:8000/api/v1/products/order",orderInfo)
+      if(response.data.success){
+        router.push("/confirm-order")
+      }
+      console.log(response)
     }
     if(paymentMethod==='card'){
       const cardPamentInfo={
