@@ -1,5 +1,8 @@
+import ViewCategory from '../../../dashboard/view category/viewcategory'
+
+
 async function getData() {
-  const res = await fetch('https://api.example.com/...')
+  const res = await fetch('http://localhost:8000/api/v1/products/get-category')
   if (!res.ok) {
     throw new Error('Failed to fetch data')
   }
@@ -7,10 +10,11 @@ async function getData() {
   return res.json()
 }
 
-const page = () => {
+const page = async() => {
+  const categoryData = await getData()
   return (
     <div>
-      <h1>View Category</h1>
+      <ViewCategory categoryData ={categoryData}/>
     </div>
   )
 }

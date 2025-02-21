@@ -26,10 +26,7 @@ const ManageOrder = ({orderData}) => {
               order.oderId === record.oderId ? { ...order, order_status: value } : order
     ))
     }
-    // const updatedOrders = orderData.map((order) =>
-    //   order.oderId === record.oderId ? { ...order, order_status: value } : order
-    // );
-    // setOrders(updatedOrders);
+    
   };
 
   const columns = [
