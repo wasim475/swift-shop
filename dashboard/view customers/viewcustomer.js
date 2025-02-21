@@ -1,7 +1,7 @@
-'use client'
-import { useState, useEffect } from "react";
-import { Table, Button, Modal } from "antd";
+"use client";
+import { Button, Modal, Table } from "antd";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const ViewCustomer = ({ customerData }) => {
@@ -15,12 +15,17 @@ const ViewCustomer = ({ customerData }) => {
 
   const handleDisable = async (record) => {
     try {
-      const response = await axios.patch("http://localhost:8000/api/v1/customers/disable", { id: record.id });
+      const response = await axios.patch(
+        "https://swift-shop-backend.vercel.app/api/v1/customers/disable",
+        { id: record.id }
+      );
       if (response.data.success) {
         toast.success(response.data.success);
         setCustomers((prev) =>
           prev.map((customer) =>
-            customer._id === record._id ? { ...customer, status: "Disabled" } : customer
+            customer._id === record._id
+              ? { ...customer, status: "Disabled" }
+              : customer
           )
         );
       }
@@ -45,8 +50,7 @@ const ViewCustomer = ({ customerData }) => {
       dataIndex: "email",
       key: "email",
     },
-   
-  
+
     {
       title: "Role",
       dataIndex: "role",
@@ -62,8 +66,9 @@ const ViewCustomer = ({ customerData }) => {
       key: "action",
       render: (_, record) => (
         <div style={{ display: "flex", gap: "10px" }}>
-          <Button type="primary" onClick={() => showDetails(record)}>View Details</Button>
-         
+          <Button type="primary" onClick={() => showDetails(record)}>
+            View Details
+          </Button>
         </div>
       ),
     },
@@ -72,9 +77,12 @@ const ViewCustomer = ({ customerData }) => {
   return (
     <div style={{ padding: 20 }}>
       <h2>View Customers</h2>
-      <Table columns={columns} dataSource={customers} pagination={{ pageSize: 5 }} />
+      <Table
+        columns={columns}
+        dataSource={customers}
+        pagination={{ pageSize: 5 }}
+      />
 
-      
       <Modal
         title="Customer Details"
         open={modalVisible}
@@ -83,11 +91,21 @@ const ViewCustomer = ({ customerData }) => {
       >
         {selectedCustomer && (
           <div>
-            <p><b>Name:</b> {selectedCustomer.name}</p>
-            <p><b>Email:</b> {selectedCustomer.email}</p>
-            <p><b>Phone:</b> {selectedCustomer.phoneNumber}</p>
-            <p><b>Address:</b> {selectedCustomer.address ||  "Not Provided"}</p>
-            <p><b>Status:</b> {selectedCustomer.role}</p>
+            <p>
+              <b>Name:</b> {selectedCustomer.name}
+            </p>
+            <p>
+              <b>Email:</b> {selectedCustomer.email}
+            </p>
+            <p>
+              <b>Phone:</b> {selectedCustomer.phoneNumber}
+            </p>
+            <p>
+              <b>Address:</b> {selectedCustomer.address || "Not Provided"}
+            </p>
+            <p>
+              <b>Status:</b> {selectedCustomer.role}
+            </p>
           </div>
         )}
       </Modal>

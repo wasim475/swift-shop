@@ -2,23 +2,32 @@
 import { Button } from "antd";
 import { CheckCircle } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getcardPaymentData } from "../../swift-shop/utility";
-import Spinner from '../../utility/spinner';
+import Spinner from "../../utility/spinner";
 
 const Success = ({ searchParams: { session_id } }) => {
   const [userName, setUserName] = useState(null);
-  const hasRun = useRef(false); 
+  const hasRun = useRef(false);
   useEffect(() => {
-    if (!session_id || hasRun.current) return; 
+    if (!session_id || hasRun.current) return;
     hasRun.current = true;
-    
+
     const paymentInfo = getcardPaymentData();
 
     if (paymentInfo && paymentInfo.deliveryInfo) {
       const { deliveryInfo } = paymentInfo;
-      const { userName, email, paymentMethod, products, grandTotal, country, state, orderNotes } = deliveryInfo;
-      
+      const {
+        userName,
+        email,
+        paymentMethod,
+        products,
+        grandTotal,
+        country,
+        state,
+        orderNotes,
+      } = deliveryInfo;
+
       setUserName(userName);
 
       const orderInfo = {
@@ -30,11 +39,11 @@ const Success = ({ searchParams: { session_id } }) => {
         state,
         orderNotes,
         payment_status: "Paid",
-        oderId: crypto.randomUUID().replace(/-/g, '').slice(0, 10)
+        oderId: crypto.randomUUID().replace(/-/g, "").slice(0, 10),
       };
 
       // Send order data to backend
-      fetch("http://localhost:8000/api/v1/products/order", {
+      fetch("https://swift-shop-backend.vercel.app/api/v1/products/order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,8 +51,7 @@ const Success = ({ searchParams: { session_id } }) => {
         body: JSON.stringify(orderInfo),
       })
         .then((res) => res.json())
-        .then((data) => console.log("Order Response:", data))
-        
+        .then((data) => console.log("Order Response:", data));
     }
   }, [session_id]);
 

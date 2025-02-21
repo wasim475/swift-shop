@@ -1,32 +1,35 @@
-'use client'
-import { useState, useEffect } from "react";
-import { Table, Select, Tag } from "antd";
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import {  } from 'react';
+"use client";
+import { Select, Table, Tag } from "antd";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const { Option } = Select;
 
-const ManageOrder = ({orderData}) => {
-  const [orders, setOrders] = useState([])
-  
+const ManageOrder = ({ orderData }) => {
+  const [orders, setOrders] = useState([]);
+
   useEffect(() => {
-    setOrders(orderData)
-  }, [orderData])
+    setOrders(orderData);
+  }, [orderData]);
 
-
-  const handleStatusChange = async(value, record) => {
+  const handleStatusChange = async (value, record) => {
     console.log(`Order ${record.oderId} status changed to: ${value}`);
-    const statusValue = {oderId: record.oderId,order_status:value }
-    const response= await axios.patch("http://localhost:8000/api/v1/products/order-status",statusValue) 
-    if(response.data.success){
-        toast.success(response.data.success)
-        setOrders((prevOrders) =>
-            prevOrders.map((order) =>
-              order.oderId === record.oderId ? { ...order, order_status: value } : order
-    ))
+    const statusValue = { oderId: record.oderId, order_status: value };
+    const response = await axios.patch(
+      "https://swift-shop-backend.vercel.app/api/v1/products/order-status",
+      statusValue
+    );
+    if (response.data.success) {
+      toast.success(response.data.success);
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.oderId === record.oderId
+            ? { ...order, order_status: value }
+            : order
+        )
+      );
     }
-    
   };
 
   const columns = [

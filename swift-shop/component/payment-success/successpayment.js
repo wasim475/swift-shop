@@ -1,30 +1,51 @@
-
-'use client'
+"use client";
 import { Button } from "antd";
 import { CheckCircle } from "lucide-react";
-import Link from 'next/link';
-import { useEffect } from 'react/cjs/react.production.min';
+import Link from "next/link";
+import { useEffect } from "react/cjs/react.production.min";
 
-const SuccessPayment =  ({ session_id, deliveryInfo }) => {
-  const { userName, email, phone, paymentMethod, grandTotal, products, state, streetAddress, zipCode, orderNotes ,country}=deliveryInfo
-  const orderInfo={
-    name: userName, email, paymentMethod,payment_Status:"paid", grandTotal, country, state, orderNotes
-  }
-  useEffect(()=>{
-    const postOrderData = async ()=>{
-        const response = await fetch("http://localhost:8000/api/v1/products/order", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(orderInfo)  
-          })
-    }
-    postOrderData()
-  },[])
- 
-//   console.log(response)
-  
+const SuccessPayment = ({ session_id, deliveryInfo }) => {
+  const {
+    userName,
+    email,
+    phone,
+    paymentMethod,
+    grandTotal,
+    products,
+    state,
+    streetAddress,
+    zipCode,
+    orderNotes,
+    country,
+  } = deliveryInfo;
+  const orderInfo = {
+    name: userName,
+    email,
+    paymentMethod,
+    payment_Status: "paid",
+    grandTotal,
+    country,
+    state,
+    orderNotes,
+  };
+  useEffect(() => {
+    const postOrderData = async () => {
+      const response = await fetch(
+        "https://swift-shop-backend.vercel.app/api/v1/products/order",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderInfo),
+        }
+      );
+    };
+    postOrderData();
+  }, []);
+
+  //   console.log(response)
+
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-gray-100 px-4">
       <div className="bg-white shadow-lg rounded-lg p-8 md:p-12 text-center max-w-lg">

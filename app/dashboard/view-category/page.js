@@ -1,22 +1,23 @@
-import ViewCategory from '../../../dashboard/view category/viewcategory'
-
+import ViewCategory from "../../../dashboard/view category/viewcategory";
 
 async function getData() {
-  const res = await fetch('http://localhost:8000/api/v1/products/get-category')
+  const res = await fetch(
+    "https://swift-shop-backend.vercel.app/api/v1/products/get-category"
+  );
   if (!res.ok) {
-    throw new Error('Failed to fetch data')
+    throw new Error("Failed to fetch data");
   }
- 
-  return res.json()
+
+  return res.json();
 }
 
-const page = async() => {
-  const categoryData = await getData()
+const page = async () => {
+  const categoryData = await getData();
   return (
     <div>
-      <ViewCategory categoryData ={categoryData}/>
+      <ViewCategory categoryData={categoryData} />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
