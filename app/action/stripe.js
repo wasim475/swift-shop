@@ -19,18 +19,18 @@ export async function createCheckoutSession(data) {
           currency: CURRENCY,
 
           product_data: {
-            name: "How To Be Happy",
+            name: data.name,
           },
 
-          unit_amount: formatAmountForStripe(1000, CURRENCY),
+          unit_amount: formatAmountForStripe(data.amount, CURRENCY),
         },
       },
     ],
 
     ...(ui_mode === "hosted" && {
-      success_url: `${origin}/products`,
+      success_url: `${origin}/payment-success`,
 
-      cancel_url: `${origin}/courses`,
+      cancel_url: `${origin}/products`,
     }),
 
     ui_mode,

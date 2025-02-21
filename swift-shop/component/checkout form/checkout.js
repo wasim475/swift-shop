@@ -29,7 +29,7 @@ console.log(checkoutData)
   const onFinish = (values) => {
     const {country,email,name,orderNotes,paymentMethod,phone,shipDifferent,state,streetAddress,zipCode} = values
     const deliveryInfo = {
-      useName: name,
+      userName: name,
       email,
       phone,
       paymentMethod,
@@ -42,6 +42,10 @@ console.log(checkoutData)
     }
     if(paymentMethod==='cod'){
       router.push("/confirm-order")
+    }
+    if(paymentMethod==='card'){
+      const cardPamentInfo={}
+      router.push("/cardpayment")
     }
     console.log("Success:", values);
   };

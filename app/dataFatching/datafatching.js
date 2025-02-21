@@ -1,3 +1,4 @@
+
 export const getCategory = async () => {
   const res = await fetch(
     "https://swift-shop-backend.vercel.app/api/v1/products/get-category",

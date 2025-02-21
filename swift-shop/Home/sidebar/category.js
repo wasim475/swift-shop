@@ -1,15 +1,15 @@
 "use client";
 
 import { Collapse, Radio } from "antd";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getCategory } from "../../../app/dataFatching/page";
+import { getCategory } from "../../../app/dataFatching/datafatching";
 import Spinner from "../../../utility/spinner";
-import { useRouter } from 'next/navigation';
 
 const Category = () => {
   const [category, setCategory] = useState("");
   const [categoryData, setCategoryData] = useState(null);
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     const getData = async () => {
@@ -30,7 +30,7 @@ const Category = () => {
       children: (
         <Radio.Group
           onChange={(e) => {
-            router.push(`/products/${e.target.value}`)
+            router.push(`/products/${e.target.value}`);
             setCategory(e.target.value);
           }}
           value={category}
