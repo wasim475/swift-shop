@@ -15,9 +15,9 @@ export function formatAmountForStripe(amount, currency) {
         }
     }
 
-    // Ensure the amount is in cents for currencies like USD
+   
     if (currency === "usd" && amount < 1) {
-        // Ensure the amount is in dollars before passing to Stripe
+        
         amount = Math.round(amount * 100);
     }
 
