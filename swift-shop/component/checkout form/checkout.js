@@ -40,6 +40,7 @@ console.log(checkoutData)
       streetAddress,
       zipCode,
       orderNotes,
+      country
     }
     if(paymentMethod==='cod'){
       router.push("/confirm-order")

@@ -9,7 +9,7 @@ export async function createCheckoutSession(data) {
   const ui_mode = "hosted";
   const origin = headers().get("origin");
   const deliveryInfo = data.deliveryInfo
-
+ 
   console.log(deliveryInfo) 
 
   const checkoutSession = await stripe.checkout.sessions.create({
@@ -31,7 +31,7 @@ export async function createCheckoutSession(data) {
     ],
 
     ...(ui_mode === "hosted" && {
-      success_url: `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}&deliveryInfo=${deliveryInfo}`,
+      success_url: `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}&deliveryInfo=${10}`,
 
       cancel_url: `${origin}/products`,
     }),

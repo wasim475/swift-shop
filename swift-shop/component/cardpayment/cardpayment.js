@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { createCheckoutSession } from '../../../app/action/stripe';  // Make sure this path is correct
 import { getcardPaymentData } from '../../utility';
 import { Card } from 'antd';
-
+ 
 export const Cardpayment = () => {
     const paymentInfo = getcardPaymentData()
-    console.log(paymentInfo.deliveryInfo)
+    // console.log(paymentInfo.deliveryInfo)
   const formAction = async (event) => {
     event.preventDefault(); // Prevent default form submission
     const{GrandTotal,products, userName, email, id}= paymentInfo
