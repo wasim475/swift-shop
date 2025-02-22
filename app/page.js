@@ -6,8 +6,8 @@ import Home from '../swift-shop/Home/home';
 export default function page() {
   
   return (
-    <main>
+    <>
      <Home/>
-    </main>
+    </>
   );
 }
