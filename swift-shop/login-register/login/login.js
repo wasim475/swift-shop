@@ -1,16 +1,23 @@
 "use client"
 
-import { Suspense } from "react";
+import { useState, useEffect } from "react";
 import { Form, Input, Button, Divider, Row, Col } from 'antd';
 import axios from 'axios';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-const LoginForm = () => {
+const Login = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirectTo = searchParams.get('redirect') || "/";
+  const [redirectTo, setRedirectTo] = useState("/");
+
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      setRedirectTo(params.get("redirect") || "/");
+    }
+  }, []);
 
   const onFinish = async (values) => {
     try {
@@ -85,11 +92,5 @@ const LoginForm = () => {
     </div>
   );
 };
-
-const Login = () => (
-  <Suspense fallback={<h1>Loading...</h1>}>
-    <LoginForm />
-  </Suspense>
-);
 
 export default Login;
