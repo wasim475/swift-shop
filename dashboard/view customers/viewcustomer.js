@@ -3,15 +3,24 @@ import { Button, Modal, Table } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import Spinner from '../../utility/spinner';
 
 const ViewCustomer = ({ customerData }) => {
-  const [customers, setCustomers] = useState([]);
+  const [customers, setCustomers] = useState(null);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     setCustomers(customerData);
   }, [customerData]);
+
+  if(!customers){
+    return (
+      <div className="flex justify-center items-center min-h-screen w-full">
+        <Spinner />
+      </div>
+    );
+  }
 
   const handleDisable = async (record) => {
     try {

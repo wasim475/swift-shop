@@ -3,15 +3,25 @@ import { Select, Table, Tag } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import Spinner from '../../utility/spinner';
 
 const { Option } = Select;
 
 const ManageOrder = ({ orderData }) => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState(null);
 
   useEffect(() => {
     setOrders(orderData);
   }, [orderData]);
+
+  if(!orders){
+    return (
+      <div className="flex justify-center items-center min-h-screen w-full">
+        <Spinner />
+      </div>
+    );
+  }
+  
 
   const handleStatusChange = async (value, record) => {
     console.log(`Order ${record.oderId} status changed to: ${value}`);

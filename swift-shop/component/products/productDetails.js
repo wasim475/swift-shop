@@ -28,13 +28,13 @@ const ProductDetails = ({ product,onWishlist, onCart, visible, onClose }) => {
                 alt="Thumbnail"
                 className="w-14 h-14 border rounded-lg cursor-pointer"
               />
-            ))} */}nafi
+            ))} */}
           </div>
         </div>
 
         {/* Right: Product Details */}
         <div className="w-2/3">
-          <h2 className="text-2xl font-semibold">{product.name}</h2>
+          <h2 className="text-2xl font-semibold">{product?.name}</h2>
           <p className="text-gray-500">
             <span className="text-green-600 text-lg">${product.price}</span>{" "}
           </p>
@@ -71,7 +71,7 @@ const ProductDetails = ({ product,onWishlist, onCart, visible, onClose }) => {
 
           {/* Category & Tags */}
           <p className="mt-4 text-gray-600">
-            <strong>Category:</strong> {product.category.name}
+            <strong>Category:</strong> {product?.category?.name}
           </p>
           <p className="mt-2 text-gray-600">
             {/* <strong>Tags:</strong> {product.tags.join(", ")} */}

@@ -1,230 +1,148 @@
-"use client";
-import { Button, Form, Input, Modal, Space, Table } from "antd";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import Spinner from "../../utility/spinner";
+"use client"
+import { Table, Button, Modal, Form, Input, Select } from "antd"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import toast from "react-hot-toast"
+import Spinner from "../../utility/spinner"
 
-const Viewproduct = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [filterCat, setFilterCat] = useState([]);
-  const [isActive, setIsActive] = useState([]);
-  const [refresh, setRefresh] = useState(false);
-  const [catData, setCatData] = useState([]);
+const { Option } = Select
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [msg, setMsg] = useState("");
-
-  const [editCat, setEditCat] = useState("");
-  const [editId, setEditId] = useState(null);
-  const [editname, setEditName] = useState(null);
+const ManageProducts = ({ productData }) => {
+  const [products, setProducts] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [editingProduct, setEditingProduct] = useState(null)
+  const [form] = Form.useForm()
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await fetch(
-          "https://swift-shop-backend.vercel.app/api/v1/products/get-product",
-          {
-            cache: "no-store",
-          }
-        );
+    setProducts(productData)
+  }, [productData])
 
-        if (!res.ok) {
-          throw new Error("Failed to fetch data");
-        }
-
-        const result = await res.json();
-        setData(result);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getData();
-  }, []);
-
-  useEffect(() => {
-    const catagory = data?.map((item) => ({
-      name: item.name,
-      price: item.price,
-      cat: item.category.name,
-      key: item._id,
-    }));
-
-    setCatData(catagory);
-    // console.log(catagory)
-  }, [data]);
-
-  useEffect(() => {
-    const cateNames = data?.map((cat) => ({
-      text: cat.name,
-      value: cat.name,
-    }));
-    setFilterCat(cateNames);
-  }, [data]);
-
-  // console.log(catData)
-  if (loading) {
+  if (!products) {
     return (
-      <div className="flex justify-center items-center min-h-screen w-full">
+      <div className="flex justify-center items-center min-h-[calc(100vh-222px)] w-full">
         <Spinner />
       </div>
-    );
+    )
   }
 
-  const uniqueFiterData = filterCat?.filter(
-    (item, index, self) =>
-      index === self.findIndex((obj) => obj.text === item.text)
-  );
+  const handleEdit = (product) => {
+    setEditingProduct(product)
+    form.setFieldsValue(product)
+    setIsModalOpen(true)
+  }
 
   const handleDelete = async (productId) => {
-    console.log(productId);
-    const response = await axios.delete(
-      `https://swift-shop-backend.vercel.app/api/v1/products/delete-product?productId=${productId}`,
-      { data: { productId } }
-    );
-    if (response.data.success) {
-      toast.success(response.data.success);
-      const remainingData = catData?.filter((item) => item.key !== productId);
-      setCatData(remainingData);
+    try {
+      await axios.delete(`http://localhost:8000/api/v1/products/product/${productId}`)
+      toast.success("Product deleted successfully")
+      setProducts(products.filter((product) => product._id !== productId))
+    } catch (error) {
+      toast.error("Failed to delete product")
     }
-  };
+  }
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const onEditFinish = async (values) => {
-    const EditcategoryData = {
-      name: values.name,
-      categoryId: editId,
-    };
-
-    const response = await axios.post(
-      "http://localhost:1559/api/v1/products/editcategory",
-      EditcategoryData
-    );
-    if (response?.data?.success) {
-      toast.success(response.data.success);
-      catDispatch(categoryData());
-      setIsModalOpen(false);
+  const handleUpdate = async (values) => {
+    console.log(values)
+    try {
+      const response = await axios.patch(
+        `https://swift-shop-backend.vercel.app/api/v1/products/product/${editingProduct._id}`,
+        values
+      )
+      if (response.data.success) {
+        toast.success("Product updated successfully")
+        setProducts(
+          products.map((product) =>
+            product._id === editingProduct._id ? { ...product, ...values } : product
+          )
+        )
+        setIsModalOpen(false)
+      }
+    } catch (error) {
+      toast.error("Failed to update product")
     }
-  };
-
-  const handleEdit = (id, name) => {
-    setEditCat(editCat);
-    setEditName(name);
-    setEditId(id);
-    showModal();
-  };
+  }
 
   const columns = [
     {
-      title: "Product",
+      title: "Image",
+      dataIndex: "imageLink",
+      key: "imageLink",
+      render: (img) => <img src={img} alt="Product" width={50} height={50} />,
+    },
+    {
+      title: "Name",
       dataIndex: "name",
-      filters: uniqueFiterData,
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value, record) => record.name.includes(value),
-      width: "30%",
+      key: "name",
     },
     {
       title: "Category",
-      dataIndex: "cat",
-      filters: uniqueFiterData,
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value, record) => record.cat.includes(value),
-      width: "30%",
+      dataIndex: "category",
+      key: "category",
+      render: (category) => category?.name || "N/A",
     },
     {
       title: "Price",
       dataIndex: "price",
+      key: "price",
+    },
+    {
+      title: "In Stock",
+      dataIndex: "inStock",
+      key: "inStock",
     },
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <Space size="middle">
-          <button onClick={() => handleEdit(record.key, record.name)}>
-            Edit
-          </button>
-
-          <button onClick={() => handleDelete(record.key)}>Delete</button>
-        </Space>
+        <>
+          <Button onClick={() => handleEdit(record)}>Edit</Button>
+          <Button danger onClick={() => handleDelete(record._id)}>Delete</Button>
+        </>
       ),
     },
-  ];
-
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
-  };
+  ]
 
   return (
-    <div className="min-h-[calc(100vh-116px)]">
-      <h1 className="text-xl font-semibold flex justify-center mb-5">
-        Products
-      </h1>
-      <p className="text-green-400">{msg}</p>
-      <Table columns={columns} dataSource={catData} onChange={onChange} />
-
+    <div style={{ padding: 20 }}>
+      <h2>Manage Products</h2>
+      <Table columns={columns} dataSource={products} pagination={{ pageSize: 5 }} />
       <Modal
-        title="Edit Category"
+        title="Edit Product"
         open={isModalOpen}
-        onCancel={handleCancel}
-        footer={null}
+        onCancel={() => setIsModalOpen(false)}
+        onOk={() => form.submit()}
       >
-        <Form
-          name="basic"
-          labelCol={{
-            span: 8,
-          }}
-          wrapperCol={{
-            span: 16,
-          }}
-          style={{
-            maxWidth: 600,
-          }}
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={onEditFinish}
-          autoComplete="off"
-        >
-          <Form.Item
-            label="Category Name"
-            name="name"
-            initialValue={editname}
-            rules={[
-              {
-                required: true,
-                message: "Please input your category Name.",
-              },
-            ]}
-          >
+        <Form form={form} layout="vertical" onFinish={handleUpdate}>
+          <Form.Item name="name" label="Product Name" rules={[{ required: true }]}> 
             <Input />
           </Form.Item>
-          <Form.Item label={null}>
-            <Button type="default" onClick={handleCancel}>
-              Cancel
-            </Button>
-            <Button type="primary" htmlType="submit">
-              Update
-            </Button>
+          {/* <Form.Item name="category" label="Category" rules={[{ required: true }]}> 
+            <Select placeholder="Select category">
+            {
+              products?.map((product)=>(
+                <Option key={product._id} value={product.category.id}>{product.category.name}</Option>
+
+              ))
+            }
+              
+            </Select>
+          </Form.Item> */}
+          <Form.Item name="price" label="Price" rules={[{ required: true }]}> 
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item name="inStock" label="inStok" rules={[{ required: true }]}> 
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item name="description" label="Description" rules={[{ required: true }]}> 
+          <Input.TextArea rows={2} />
+          </Form.Item>
+          <Form.Item name="imageLink" label="Image URL" rules={[{ required: true }]}> 
+            <Input />
           </Form.Item>
         </Form>
       </Modal>
     </div>
-  );
-};
+  )
+}
 
-export default Viewproduct;
+export default ManageProducts

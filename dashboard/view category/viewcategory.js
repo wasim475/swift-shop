@@ -3,15 +3,24 @@ import { Button, Input, Modal, Space, Table } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import Spinner from '../../utility/spinner';
 
 const ViewCategory = ({ categoryData }) => {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentCategory, setCurrentCategory] = useState({});
 
   useEffect(() => {
     setCategories(categoryData);
   }, [categoryData]);
+
+  if(!categories){
+    return (
+      <div className="flex justify-center items-center min-h-screen w-full">
+        <Spinner />
+      </div>
+    );
+  }
 
   const handleEdit = (record) => {
     setCurrentCategory(record);
