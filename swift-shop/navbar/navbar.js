@@ -54,10 +54,14 @@ const Navbar = () => {
           <div className='text-md text-gray-400'>
             {
               currentUser ? <ProfileDropdown setUser={setCurrentUser} user = {currentUser}/>:
+             
               <>
               <Link href={"/login"}>Sign In</Link> <span className='px-2'>/</span>
               <Link href={"/signup"}>Sign Up</Link>
               </>
+            }
+            {
+               currentUser?.role === 'admin'&&  <button>Dashboard</button>
             }
             
           </div>

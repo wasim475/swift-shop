@@ -1,11 +1,13 @@
 "use client"
+
+import { Suspense } from "react";
 import { Form, Input, Button, Divider, Row, Col } from 'antd';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-const Login = () => {
+const LoginForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirect') || "/";
@@ -16,7 +18,7 @@ const Login = () => {
       const loginData = { inputEmail: email, inputPassword: password };
 
       const response = await axios.post(
-        "https://swift-shop-backend.vercel.app/api/v1/auth/login", 
+        "https://swift-shop-backend.vercel.app/api/v1/auth/login",
         loginData
       );
 
@@ -44,12 +46,7 @@ const Login = () => {
   return (
     <div style={{ maxWidth: 400, margin: '0 auto', padding: '20px' }}>
       <h2>Login</h2>
-      <Form
-        name="login"
-        onFinish={onFinish}
-        initialValues={{ remember: true }}
-        layout="vertical"
-      >
+      <Form name="login" onFinish={onFinish} initialValues={{ remember: true }} layout="vertical">
         <Form.Item
           label="Email"
           name="email"
@@ -81,13 +78,18 @@ const Login = () => {
       <Row justify="center">
         <Col>
           <p>
-            Don't have an account?{' '}
-            <Link href={"/signup"} className='text-blue-400'>Register now</Link>
+            Don't have an account? <Link href={"/signup"} className='text-blue-400'>Register now</Link>
           </p>
         </Col>
       </Row>
     </div>
   );
 };
+
+const Login = () => (
+  <Suspense fallback={<h1>Loading...</h1>}>
+    <LoginForm />
+  </Suspense>
+);
 
 export default Login;
