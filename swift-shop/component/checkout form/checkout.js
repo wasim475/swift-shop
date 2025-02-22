@@ -158,8 +158,8 @@ const CheckoutForm = () => {
               ]}
             >
               <Select placeholder="Select">
-                <Option value="us">United States</Option>
-                <Option value="uk">United Kingdom</Option>
+                <Option value="bd">Bangladesh</Option>
+                <Option value="other">Other</Option>
               </Select>
             </Form.Item>
             <Form.Item label="State" name="state">
