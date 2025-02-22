@@ -6,11 +6,15 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkoutDataLoader } from "../../../Feature/checkoutSlice/checkoutSlice";
 import Spinner from "../../../utility/spinner";
-import { saveCardPaymentData } from "../../utility";
+import { getUserData, getUserToken, saveCardPaymentData } from "../../utility";
+import { useState } from 'react';
+import useAuth from '../../customHook/useAuth';
 
 const { Option } = Select;
 
 const CheckoutForm = () => {
+  useAuth()
+
   const router = useRouter();
   const { checkoutData, isLoading } = useSelector((state) => state.checkout);
   const checkoutDispatch = useDispatch();

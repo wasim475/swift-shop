@@ -3,8 +3,10 @@ import { Button } from "antd";
 import { CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react/cjs/react.production.min";
+import useAuth from '../../customHook/useAuth';
 
 const SuccessPayment = ({ session_id, deliveryInfo }) => {
+  useAuth()
   const {
     userName,
     email,

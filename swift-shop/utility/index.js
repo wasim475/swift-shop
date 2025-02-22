@@ -1,6 +1,6 @@
-
+"use client"
 import toast from 'react-hot-toast'
-
+ 
 export const getCartData = ()=>{
     let cartData = []
     const cart = localStorage.getItem("cart")
@@ -24,7 +24,22 @@ export const saveCartData = (cartItem)=>{
     toast.success("product added to cart.")
 
 }
-
+export const getUserData = ()=>{
+    let userData = []
+    const user = localStorage.getItem("user")
+    if(user){
+        userData = JSON.parse(user)
+    }
+    return userData
+}
+export const getUserToken = ()=>{
+    let userData = []
+    const user = localStorage.getItem("user")
+    if(user){
+        userData = JSON.parse(user)
+    }
+    return userData.token
+}
 export const deleteCart = (id)=>{
     let carts = getCartData()
     const remaining = carts.filter((cart)=>cart.id !== id)

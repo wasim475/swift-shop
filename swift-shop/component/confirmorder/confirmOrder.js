@@ -5,8 +5,10 @@ import { Button } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import Link from 'next/link';
+import useAuth from '../../customHook/useAuth';
 
 const ConfirmOrder = () => {
+  useAuth()
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

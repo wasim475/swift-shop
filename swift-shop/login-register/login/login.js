@@ -2,22 +2,31 @@
 import { Form, Input, Button, Divider, Row, Col } from 'antd';
 import axios from 'axios';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 
 const Login = () => {
+  const router = useRouter()
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || "/";
   const onFinish = async (values) => {
     const {email, password}= values
     const loginData = {inputEmail: email, inputPassword: password}
     const response = await axios.post("https://swift-shop-backend.vercel.app/api/v1/auth/login", loginData)
     if(response.data.user){
-      console.log(response.data.user)
-      localStorage.setItem("user",JSON.stringify(response.data.user))
+      const userData = {
+        ...response.data.user,
+        token: response.data.token 
+      };
+      
+      localStorage.setItem("user",JSON.stringify(userData))
+      router.push(redirectTo);
       return toast.success("Login Successfull!")
     } else if(response.data.error){
       return toast.error(response.data.error)
     }
-    console.log('Form values: ', response);
+    // console.log('Form values: ', response);
    
   };
 

@@ -18,13 +18,19 @@ import Link from "next/link";
 import NavItem from "./navItem";
 import { useDispatch, useSelector } from 'react-redux';
 import { cartDataLoader } from '../../Feature/cart slice/cartSlice';
+import ProfileDropdown from './profileDropdown';
 
 const Navbar = () => {
   const [cartCount, setCartCount] = useState(0);
+  const [currentUser, setCurrentUser]= useState(null)
   const cartTotal = 57.0;
   const dispatch = useDispatch();
   const { cartInfo, isLoading } = useSelector((state) => state.cartData);
-
+  let user = useSelector((state=>state.user.value))
+  
+  useEffect(()=>{
+    setCurrentUser(user)
+  },[user])
   
   useEffect(() => {
     dispatch(cartDataLoader());
@@ -45,8 +51,14 @@ const Navbar = () => {
             <p className='text-gray-400 text-sm flex items-center'> <IoLocationOutline/> store location: Dhamrai, Dhaka, Bangladesh.</p>
           </div>
           <div className='text-md text-gray-400'>
-            <Link href={"/login"}>Sign In</Link> <span className='px-2'>/</span>
-            <Link href={"/signup"}>Sign Up</Link>
+            {
+              currentUser ? <ProfileDropdown setUser={setCurrentUser} user = {currentUser}/>:
+              <>
+              <Link href={"/login"}>Sign In</Link> <span className='px-2'>/</span>
+              <Link href={"/signup"}>Sign Up</Link>
+              </>
+            }
+            
           </div>
       </nav>
       <nav className="flex justify-between items-center p-4">
