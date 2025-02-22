@@ -5,29 +5,40 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-
 const Login = () => {
-  const router = useRouter()
+  const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirect') || "/";
+
   const onFinish = async (values) => {
-    const {email, password}= values
-    const loginData = {inputEmail: email, inputPassword: password}
-    const response = await axios.post("https://swift-shop-backend.vercel.app/api/v1/auth/login", loginData)
-    if(response.data.user){
-      const userData = {
-        ...response.data.user,
-        token: response.data.token 
-      };
-      
-      localStorage.setItem("user",JSON.stringify(userData))
-      router.push(redirectTo);
-      return toast.success("Login Successfull!")
-    } else if(response.data.error){
-      return toast.error(response.data.error)
+    try {
+      const { email, password } = values;
+      const loginData = { inputEmail: email, inputPassword: password };
+
+      const response = await axios.post(
+        "https://swift-shop-backend.vercel.app/api/v1/auth/login", 
+        loginData
+      );
+
+      if (response?.data?.user) {
+        const userData = {
+          ...response.data.user,
+          token: response.data.token,
+        };
+
+        if (typeof window !== "undefined") {
+          localStorage.setItem("user", JSON.stringify(userData));
+        }
+
+        toast.success("Login Successful!");
+        router.push(redirectTo);
+      } else {
+        toast.error(response.data.error || "Login failed! Please try again.");
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      toast.error("Something went wrong! Please check your credentials.");
     }
-    // console.log('Form values: ', response);
-   
   };
 
   return (
@@ -71,7 +82,7 @@ const Login = () => {
         <Col>
           <p>
             Don't have an account?{' '}
-            <Link href={"/signup"} className='text-blue-400' >Register now</Link>
+            <Link href={"/signup"} className='text-blue-400'>Register now</Link>
           </p>
         </Col>
       </Row>
