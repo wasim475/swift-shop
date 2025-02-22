@@ -64,7 +64,7 @@ const SuccessPayment = ({ session_id, deliveryInfo }) => {
             <Link href="/products">Browse Products</Link>
           </Button>
           <Button type="default" size="large">
-            <Link href="/dashboard">See Dashboad</Link>
+            <Link href="/customer-dashboard">See Dashboad</Link>
           </Button>
         </div>
       </div>

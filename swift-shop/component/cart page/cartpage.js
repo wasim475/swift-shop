@@ -18,6 +18,7 @@ const CartPage = () => {
   const { cartInfo, isLoading } = useSelector((state) => state.cartData);
   const [cartItems, setCartItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
+  
 
   useEffect(() => {
     dispatch(cartDataLoader());

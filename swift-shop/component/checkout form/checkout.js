@@ -18,6 +18,8 @@ const CheckoutForm = () => {
   const router = useRouter();
   const { checkoutData, isLoading } = useSelector((state) => state.checkout);
   const checkoutDispatch = useDispatch();
+  const user =useSelector(state=>state.user.value)
+  const{email, _id, name} = user
 
   useEffect(() => {
     checkoutDispatch(checkoutDataLoader());
@@ -119,9 +121,10 @@ const CheckoutForm = () => {
             <Form.Item
               label="Name"
               name="name"
+              
               rules={[{ required: true, message: "Please input your name!" }]}
             >
-              <Input />
+              <Input value={name} />
             </Form.Item>
             <Form.Item
               label="Street Address"

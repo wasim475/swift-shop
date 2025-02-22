@@ -12,7 +12,8 @@ const CustomerDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-    const user =useSelector(state=>state.value)
+    const user =useSelector(state=>state.user.value)
+    const {_id}= user
     console.log(user)
   useEffect(() => {
     const fetchOrders = async () => {
