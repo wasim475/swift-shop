@@ -1,11 +1,14 @@
 'use client';
 
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/router';
 import { useState } from "react";
 import { FaChevronDown, FaSignOutAlt } from "react-icons/fa";
 
 const ProfileDropdown = ({user, setUser}) => {
   const [isOpen, setIsOpen] = useState(false);
- 
+ const router = useRouter()
 
   const handleLogout =()=>{
     localStorage.removeItem("user")
@@ -33,7 +36,7 @@ const ProfileDropdown = ({user, setUser}) => {
             <h1>{user?.name}</h1>
           </div>
           <p className="text-gray-600 text-sm mb-2">{user?.email}</p>
-          <button className="w-full bg-gray-800 text-white py-2 rounded-md hover:bg-gray-900 transition-all">
+          <button onClick={()=>router.push("/customer-dashboard")} className="w-full bg-gray-800 text-white py-2 rounded-md hover:bg-gray-900 transition-all">
             Dashboard
           </button>
 

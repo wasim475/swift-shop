@@ -13,6 +13,7 @@ const useAuth = () => {
       const token = getUserToken();
       
       if (!token) {
+        localStorage.removeItem('user')
         if (pathname !== '/login') {
           toast.error('You must be logged in!');
           router.push('/login'); 
