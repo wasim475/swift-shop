@@ -18,7 +18,7 @@ const CustomerDashboard = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(`https://swift-shop-backend.vercel.app/api/v1/orders/${id}`);
+        const response = await axios.get(`https://swift-shop-backend.vercel.app/api/v1/orders/${_id}`);
         setOrders(response.data.orders);
         setLoading(false);
       } catch (error) {
