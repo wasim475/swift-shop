@@ -5,12 +5,12 @@ import { FaChevronDown, FaSignOutAlt } from "react-icons/fa";
 
 const ProfileDropdown = ({user, setUser}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [name, setName] = useState("Wasim Hossain");
-  const email = "wasim@example.com";
+ 
 
   const handleLogout =()=>{
     localStorage.removeItem("user")
     setUser(null)
+    setIsOpen(!isOpen)
   }
 
   return (

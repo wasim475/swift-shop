@@ -21,7 +21,7 @@ const useAuth = () => {
       }
 
       try {
-        const res = await fetch('http://localhost:8000/api/v1/auth/verify-token', { 
+        const res = await fetch('https://swift-shop-backend.vercel.app/api/v1/auth/verify-token', { 
           method: 'GET',
           headers: { 'Authorization': `Bearer ${token}` },
         });

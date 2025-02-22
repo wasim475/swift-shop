@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cartDataLoader } from '../../Feature/cart slice/cartSlice';
 import ProfileDropdown from './profileDropdown';
 
+
 const Navbar = () => {
   const [cartCount, setCartCount] = useState(0);
   const [currentUser, setCurrentUser]= useState(null)
