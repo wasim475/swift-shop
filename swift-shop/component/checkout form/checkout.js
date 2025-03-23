@@ -18,13 +18,16 @@ const CheckoutForm = () => {
   const router = useRouter();
   const { checkoutData, isLoading } = useSelector((state) => state.checkout);
   const checkoutDispatch = useDispatch();
-  const user =useSelector(state=>state.user.value)
-  const{email, _id, name} = user
+  const user =useSelector(state=>state.user.value || {})
+
 
   useEffect(() => {
     checkoutDispatch(checkoutDataLoader());
   }, [checkoutDispatch]);
-
+  if (Object.keys(user).length === 0) {
+    return;
+}
+  const{email, _id, name} = user
   if (checkoutData.length < 1) {
     return (
       <div className="flex justify-center items-center min-h-screen w-full">
@@ -32,6 +35,7 @@ const CheckoutForm = () => {
       </div>
     );
   }
+ 
 
   const onFinish = async (values) => {
     const {

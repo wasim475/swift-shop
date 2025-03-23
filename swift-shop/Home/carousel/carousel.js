@@ -1,6 +1,7 @@
 "use client"
 import React from "react";
 import { Carousel } from "antd";
+import Link from 'next/link';
 
 const carouselData = [
   {
@@ -42,9 +43,11 @@ const HomeCarousel = () => {
                     {item.title}
                   </h2>
                   <p className="mt-4 text-gray-600">{item.details}</p>
-                  <button className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-all">
+                 <Link href={'/products'}>
+                 <button className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-all">
                     {item.buttonText}
                   </button>
+                 </Link>
                 </div>
                 <div className="col-span-1">
                   <img

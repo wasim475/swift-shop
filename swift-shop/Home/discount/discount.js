@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 const discounts = [
   {
     image:
@@ -38,9 +40,11 @@ export default function DiscountCards() {
           <div className="p-4">
             <h3 className="text-xl font-semibold">{item.title}</h3>
             <p className="text-gray-500 mt-2">{item.description}</p>
+            <Link href={"/products"}>
             <button className="mt-4 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
               Shop Now
             </button>
+            </Link>
           </div>
         </div>
       ))}

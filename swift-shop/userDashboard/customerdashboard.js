@@ -12,13 +12,14 @@ const CustomerDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-    const user =useSelector(state=>state.user.value)
-    const {_id}= user
+    const user =useSelector(state=>state.user.value ||{})
+  
+    
     console.log(user)
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(`https://swift-shop-backend.vercel.app/api/v1/orders/${_id}`);
+        const response = await axios.get(`https://swift-shop-backend.vercel.app/api/v1/orders/{_id}`);
         setOrders(response.data.orders);
         setLoading(false);
       } catch (error) {
@@ -28,6 +29,11 @@ const CustomerDashboard = () => {
     };
     fetchOrders();
   }, []);
+
+  if(Object.keys(user).length ===0){
+    return null;
+  }
+  const {_id}= user
 
   const handleViewDetails = (order) => {
     setSelectedOrder(order);

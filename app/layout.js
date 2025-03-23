@@ -5,6 +5,7 @@ import Navbar from "../swift-shop/navbar/navbar";
 import Hero from "../swift-shop/Home/hero";
 import ReduxProvider from '../store/reduxprovider';
 import Footer from '../swift-shop/component/footer/footer';
+import Template from './template';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <ReduxProvider>
+          <Template>
           <Navbar />
+          </Template>
           <Hero />
           {children}
           <Footer/>
